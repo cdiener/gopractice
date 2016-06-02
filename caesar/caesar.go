@@ -8,15 +8,8 @@ import (
 	"os"
 )
 
-var shift int
-
-func main() {
-	flag.IntVar(&shift, "shift", 13, "The shift")
-	flag.Parse()
-
-	s := bufio.NewScanner(os.Stdin)
-	s.Scan()
-
+func encode(s *bufio.Scanner, shift int) string {
+	out := ""
 	var ref rune
 	for _, v := range s.Text() {
 		if v >= 'A' && v <= 'z' {
@@ -27,8 +20,20 @@ func main() {
 			}
 			v = ref + (v-ref+rune(shift))%26
 		}
-		fmt.Printf("%c", v)
+		out += string(v)
 	}
-	fmt.Println()
+
+	return out
+}
+
+func main() {
+	var shift int
+	flag.IntVar(&shift, "shift", 13, "The shift")
+	flag.Parse()
+
+	s := bufio.NewScanner(os.Stdin)
+	s.Scan()
+
+	fmt.Println(encode(s, shift))
 
 }
