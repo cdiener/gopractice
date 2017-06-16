@@ -54,19 +54,19 @@ func buildMap(negativeFile string, positiveFile string) map[string]int {
 
 // Calculate the sentiment of a text
 // a positive output means the text is positive etc.
-func sentiment(text string, smap map[string]int) int {
-	var sen = 0
-
+func sentiment(text string, smap map[string]int) float64 {
+	var sen = 0.0
 	var val int
 	var ok bool
-	for _, word := range strings.Fields(text) {
+	words := strings.Fields(text)
+	for _, word := range words {
 		val, ok = smap[strings.ToLower(word)]
 		if ok {
-			sen += val
+			sen += float64(val)
 		}
 	}
 
-	return sen
+	return sen / float64(len(words))
 }
 
 func main() {
@@ -84,12 +84,12 @@ func main() {
 	sentiments := buildMap(*negPtr, *posPtr)
 	sen := sentiment(phrase, sentiments)
 
-	if sen > 0 {
-		color.Green("%s (score=%d)", phrase, sen)
-	} else if sen < 0 {
-		color.Red("%s (score=%d)", phrase, sen)
+	if sen > 0.05 {
+		color.Green("%s (score=%g)", phrase, sen)
+	} else if sen < -0.05 {
+		color.Red("%s (score=%g)", phrase, sen)
 	} else {
-		color.White("%s (score=%d)", phrase, sen)
+		color.White("%s (score=%g)", phrase, sen)
 	}
 
 	os.Exit(0)
