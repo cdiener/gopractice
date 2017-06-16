@@ -16,7 +16,6 @@ func insert(s string, sentiment int, m map[string]int) bool {
 	if ok {
 		return false
 	}
-
 	m[s] = sentiment
 
 	return true
@@ -84,12 +83,13 @@ func main() {
 	sentiments := buildMap(*negPtr, *posPtr)
 	sen := sentiment(phrase, sentiments)
 
-	if sen > 0.05 {
-		color.Green("%s (score=%g)", phrase, sen)
-	} else if sen < -0.05 {
-		color.Red("%s (score=%g)", phrase, sen)
-	} else {
-		color.White("%s (score=%g)", phrase, sen)
+	switch {
+	case sen > 0.05:
+		color.Green("%g  %s", sen, phrase)
+	case sen < -0.05:
+		color.Red("%g  %s", sen, phrase)
+	default:
+		color.White("%g  %s", sen, phrase)
 	}
 
 	os.Exit(0)
