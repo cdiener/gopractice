@@ -1,3 +1,9 @@
 # gopractice
 
-Several small Golang practice programs. Mostly inspired by CS50.
+Several small Golang practice programs.
+
+Taken from:
+
+- CS50
+- Gophercises
+- [Advent of Code](https://adventofcode.com/)
